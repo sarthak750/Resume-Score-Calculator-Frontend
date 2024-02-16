@@ -62,7 +62,7 @@ export default function ResumeUpload({
   if (!upload) {
     return (
       <React.Fragment>
-        <Typography variant="h6" color="#1565c0" gutterBottom>
+        <Typography variant="h5" color="#8E90BE" gutterBottom>
           <strong>Upload Resume</strong>
         </Typography>
         <Grid container spacing={3}>
@@ -116,10 +116,16 @@ export default function ResumeUpload({
 
           <Button
             onClick={handleUpload}
+            style={{
+              backgroundColor: "#43AE45",
+              color: "#FFFF",
+              fontSize: "20px",
+              borderRadius: "10px",
+            }}
             variant="contained"
             sx={{ mt: 3, ml: 1 }}
           >
-            Upload File
+            <strong>Upload File</strong>
           </Button>
         </Box>
       </React.Fragment>

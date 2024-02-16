@@ -31,7 +31,7 @@ export default function Resume({ currentStep, changeStep, setResumeScore }) {
     <div>
       {!loading && (
         <React.Fragment>
-          <Typography variant="h6" color="#28a745" gutterBottom>
+          <Typography variant="h5" color="#8E90BE" gutterBottom>
             <strong>Resume uploaded successfully : {resumeName}</strong>
           </Typography>
 
@@ -39,9 +39,15 @@ export default function Resume({ currentStep, changeStep, setResumeScore }) {
             <Button
               variant="contained"
               onClick={handleNext}
+              style={{
+                backgroundColor: "#43AE45",
+                color: "#FFFF",
+                fontSize: "20px",
+                borderRadius: "10px",
+              }}
               sx={{ mt: 3, ml: 1 }}
             >
-              Continue
+              <strong>Continue</strong>
             </Button>
           </Box>
         </React.Fragment>
@@ -49,7 +55,7 @@ export default function Resume({ currentStep, changeStep, setResumeScore }) {
 
       {loading && (
         <>
-          <Typography variant="h6" color="#1565c0" gutterBottom>
+          <Typography variant="h5" color="#8E90BE" gutterBottom>
             <strong>Calculating Score</strong>
           </Typography>
           <Box

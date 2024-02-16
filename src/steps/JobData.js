@@ -4,6 +4,11 @@ import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import DOMPurify from "dompurify";
+import Accordion from "@mui/material/Accordion";
+import AccordionActions from "@mui/material/AccordionActions";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 export default function JobData({
   currentStep,
@@ -12,12 +17,12 @@ export default function JobData({
   setJobPostData,
 }) {
   const jobPlatform = JSON.parse(jobPostData).jobPlatform;
-  let comapanyNameLinkedIn = "";
+  let companyNameLinkedIn = "";
   let jobTitleLinkedIn = "";
-  let jobLocationLinkedIn = "";
-  let jobAdditionalDataLinkedIn = "";
+  let jobSkillsLinkedIn = "";
   let jobDescriptionLinkedIn = "";
-  let comapanyNameIndeed = "";
+
+  let companyNameIndeed = "";
   let jobLocationIndeed = "";
   let jobTitleIndeed = "";
   let jobSalaryAndJobTypeIndeed = "";
@@ -38,27 +43,28 @@ export default function JobData({
 
   if (jobPlatform === "linkedin") {
     const jobPostDataObject = JSON.parse(jobPostData).jobData;
-    comapanyNameLinkedIn = jobPostDataObject.comapanyName;
-    jobTitleLinkedIn = jobPostDataObject.jobTitleContent;
-    jobLocationLinkedIn = jobPostDataObject.jobLocationContent;
-    jobAdditionalDataLinkedIn = jobPostDataObject.jobAdditionalData;
-    jobDescriptionLinkedIn = jobPostDataObject.jobDescriptionContent;
-    jobDescriptionLinkedIn = fixSelfClosingTags(jobDescriptionLinkedIn);
-    jobDescriptionLinkedIn = DOMPurify.sanitize(jobDescriptionLinkedIn);
+
+    companyNameLinkedIn = jobPostDataObject.companyNameLinkedIn;
+    jobTitleLinkedIn = jobPostDataObject.jobTitleLinkedIn;
+    jobSkillsLinkedIn = jobPostDataObject.jobSkillsLinkedIn;
+
+    jobDescriptionLinkedIn = jobPostDataObject.jobDescriptionLinkedIn;
+    // jobDescriptionLinkedIn = fixSelfClosingTags(jobDescriptionLinkedIn);
+    // jobDescriptionLinkedIn = DOMPurify.sanitize(jobDescriptionLinkedIn);
   } else {
     const jobPostDataObject = JSON.parse(jobPostData).jobData;
-    comapanyNameIndeed = jobPostDataObject.comapanyName;
-    jobLocationIndeed = jobPostDataObject.jobLocationContent;
-    jobTitleIndeed = jobPostDataObject.jobTitleContent;
-    jobSalaryAndJobTypeIndeed = jobPostDataObject.jobSalaryAndJobTypeContent;
-    jobDescriptionIndeed = jobPostDataObject.jobDescriptionContent;
+    companyNameIndeed = jobPostDataObject.comapanyNameIndeed;
+    jobLocationIndeed = jobPostDataObject.jobLocationIndeed;
+    jobTitleIndeed = jobPostDataObject.jobTitleIndeed;
+    jobSalaryAndJobTypeIndeed = jobPostDataObject.jobSalaryAndJobTypeIndeed;
+    jobDescriptionIndeed = jobPostDataObject.jobDescriptionIndeed;
     jobDescriptionIndeed = fixSelfClosingTags(jobDescriptionIndeed);
     jobDescriptionIndeed = DOMPurify.sanitize(jobDescriptionIndeed);
   }
 
   return (
     <React.Fragment>
-      <Typography variant="h6" gutterBottom>
+      <Typography variant="h5" color="#8E90BE" gutterBottom>
         Job Data
       </Typography>
       <Grid container spacing={2}>
@@ -67,23 +73,23 @@ export default function JobData({
             <div>
               {
                 <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
-                  <strong>Comapny Name : </strong>{" "}
-                  <span>{comapanyNameLinkedIn}</span>
-                </Typography>
-              }
-              {
-                <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
                   <strong>Job Title :</strong> <span>{jobTitleLinkedIn}</span>
                 </Typography>
               }
               {
                 <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
-                  <strong>Job Location :</strong>{" "}
-                  <span>{jobLocationLinkedIn}</span>
+                  <strong>Company Related Details : </strong>{" "}
+                  <span>{companyNameLinkedIn}</span>
                 </Typography>
               }
 
-              <Typography gutterBottom>
+              {
+                <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
+                  <strong>Job Skills :</strong> <span>{jobSkillsLinkedIn}</span>
+                </Typography>
+              }
+
+              {/* <Typography gutterBottom>
                 {jobAdditionalDataLinkedIn.map((item, index) => (
                   <div key={index}>
                     <h3>
@@ -91,15 +97,43 @@ export default function JobData({
                     </h3>
                   </div>
                 ))}
-              </Typography>
+              </Typography> */}
               {
                 <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
-                  <strong>Job Description :</strong>
-                  <div
-                    dangerouslySetInnerHTML={{
-                      __html: jobDescriptionLinkedIn,
+                  {/* <strong>Job Description :</strong>
+                  <p>{jobDescriptionLinkedIn}</p> */}
+                  <Accordion
+                    // defaultExpanded
+                    style={{
+                      marginTop: "10px",
+                      marginBottom: "10px",
+                      borderRadius: "20px",
+                      // alignContent: "center",
+                      backgroundColor: "#F6F8FD",
                     }}
-                  />
+                  >
+                    <AccordionSummary
+                      expandIcon={<ExpandMoreIcon />}
+                      aria-controls="panel1-content"
+                      id="panel1-header"
+                    >
+                      <Typography variant="h5" color="#05153C">
+                        <strong> Job Description </strong>
+                      </Typography>
+                    </AccordionSummary>
+                    <AccordionDetails
+                      style={{
+                        fontSize: "14px",
+                      }}
+                    >
+                      <div
+                        dangerouslySetInnerHTML={{
+                          __html: jobDescriptionLinkedIn,
+                        }}
+                      />
+                      {/* {jobDescriptionLinkedIn} */}
+                    </AccordionDetails>
+                  </Accordion>
                 </Typography>
               }
             </div>
@@ -109,7 +143,7 @@ export default function JobData({
                 <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
                   <strong>Comapny Name : </strong>
 
-                  <span>{comapanyNameIndeed}</span>
+                  <span>{companyNameIndeed}</span>
                 </Typography>
               }
               {
@@ -117,10 +151,11 @@ export default function JobData({
                   <strong style={{ display: "inline-block" }}>
                     Location :{" "}
                   </strong>
-                  <div
+                  <span>{jobLocationIndeed}</span>
+                  {/* <div
                     style={{ display: "inline-block", marginLeft: "10px" }}
                     dangerouslySetInnerHTML={{ __html: jobLocationIndeed }}
-                  />
+                  /> */}
                 </Typography>
               }
               {
@@ -128,10 +163,11 @@ export default function JobData({
                   <strong style={{ display: "inline-block" }}>
                     Job Title :
                   </strong>
-                  <div
+                  <span>{jobTitleIndeed}</span>
+                  {/* <div
                     style={{ display: "inline-block", marginLeft: "10px" }}
                     dangerouslySetInnerHTML={{ __html: jobTitleIndeed }}
-                  />
+                  /> */}
                 </Typography>
               }
               {
@@ -149,12 +185,37 @@ export default function JobData({
               }
               {
                 <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
-                  <strong>Job Description :</strong>
-                  <div
-                    dangerouslySetInnerHTML={{
-                      __html: jobDescriptionIndeed,
+                  <Accordion
+                    // defaultExpanded
+                    style={{
+                      marginTop: "10px",
+                      marginBottom: "10px",
+                      borderRadius: "20px",
+                      // alignContent: "center",
+                      backgroundColor: "#F6F8FD",
                     }}
-                  />
+                  >
+                    <AccordionSummary
+                      expandIcon={<ExpandMoreIcon />}
+                      aria-controls="panel1-content"
+                      id="panel1-header"
+                    >
+                      <Typography variant="h5" color="#05153C">
+                        <strong> Job Description </strong>
+                      </Typography>
+                    </AccordionSummary>
+                    <AccordionDetails
+                      style={{
+                        fontSize: "14px",
+                      }}
+                    >
+                      <div
+                        dangerouslySetInnerHTML={{
+                          __html: jobDescriptionIndeed,
+                        }}
+                      />
+                    </AccordionDetails>
+                  </Accordion>
                 </Typography>
               }
             </div>
@@ -163,11 +224,25 @@ export default function JobData({
       </Grid>
 
       <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-        <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
-          Back
+        <Button
+          onClick={handleBack}
+          style={{ fontSize: "20px", borderRadius: "10px" }}
+          sx={{ mt: 3, ml: 1 }}
+        >
+          <strong>Back</strong>
         </Button>
-        <Button onClick={handleNext} variant="contained" sx={{ mt: 3, ml: 1 }}>
-          Continue
+        <Button
+          onClick={handleNext}
+          style={{
+            backgroundColor: "#43AE45",
+            color: "#FFFF",
+            fontSize: "20px",
+            borderRadius: "10px",
+          }}
+          variant="contained"
+          sx={{ mt: 3, ml: 1 }}
+        >
+          <strong>Continue</strong>
         </Button>
       </Box>
     </React.Fragment>

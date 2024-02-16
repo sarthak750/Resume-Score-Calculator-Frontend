@@ -21,7 +21,10 @@ export default function JobPostForm({ currentStep, changeStep }) {
   const isValidJobPostUrl = (url) => {
     const linkedinRegex =
       /^https?:\/\/(www\.)?(?:[a-z]{2}\.)?linkedin\.com\/jobs\/.*$/;
-    const indeedRegex = /^https?:\/\/(?:www\.)?indeed\.com\/.+$/;
+    // const indeedRegex = /^https?:\/\/(?:www\.)(?:[a-z]{2}\.)?indeed\.com\/.+$/;
+    // const indeedRegex = /^https?:\/.*$/;
+    const indeedRegex =
+      /^https?:\/\/(?:[a-z]{2,3}\.)?indeed\.(?:com|[a-z]{2,3})\/viewjob\?jk=[a-zA-Z0-9_-]+/;
 
     if (linkedinRegex.test(url)) {
       return "linkedin";
@@ -45,8 +48,10 @@ export default function JobPostForm({ currentStep, changeStep }) {
         "http://localhost:5000/api/v1/jobParser",
         { url: jobUrl, jobPlatform: site }
       );
-      // console.log(fetchedData.data);
+      console.log(fetchedData.data);
+
       const fetchedDataString = JSON.stringify(fetchedData.data);
+
       localStorage.setItem("jobData", fetchedDataString);
       setJobPostData(fetchedDataString);
       setLoading(false);
@@ -58,7 +63,7 @@ export default function JobPostForm({ currentStep, changeStep }) {
     <div>
       {!loading && !jobPostData && (
         <React.Fragment>
-          <Typography variant="h6" gutterBottom>
+          <Typography variant="h6" color="#8E90BE" gutterBottom>
             Provide Job Post Url
           </Typography>
 
@@ -69,7 +74,7 @@ export default function JobPostForm({ currentStep, changeStep }) {
                 value={jobUrl}
                 id="jobUrl"
                 name="jobUrl"
-                label="Job Post Url"
+                label="Paste Job Url"
                 fullWidth
                 variant="standard"
                 onChange={handleChange}
@@ -83,18 +88,24 @@ export default function JobPostForm({ currentStep, changeStep }) {
           )}
           <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
             <Button
+              style={{
+                backgroundColor: "#43AE45",
+                color: "#FFFF",
+                fontSize: "20px",
+                borderRadius: "10px",
+              }}
               onClick={handleNext}
               variant="contained"
               sx={{ mt: 3, ml: 1 }}
             >
-              Continue
+              <strong>Continue</strong>
             </Button>
           </Box>
         </React.Fragment>
       )}
       {loading && (
         <>
-          <Typography variant="h6" color="#1565c0" gutterBottom>
+          <Typography variant="h5" color="#8E90BE" gutterBottom>
             <strong>Fetching Data</strong>
           </Typography>
           <Box
